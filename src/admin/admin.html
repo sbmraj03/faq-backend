@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>FAQ Admin Panel</title>
+  <script src="https://cdn.ckeditor.com/4.21.0/standard/ckeditor.js"></script>
+</head>
+<body>
+  <h1>Create a New FAQ</h1>
+  <form id="faqForm">
+    <label for="question">Question:</label><br>
+    <textarea name="question" id="question" rows="4" cols="50"></textarea><br><br>
+
+    <label for="answer">Answer:</label><br>
+    <textarea name="answer" id="answer" rows="6" cols="50"></textarea><br><br>
+
+    <button type="submit">Submit FAQ</button>
+  </form>
+
+  <script>
+    // Initialize CKEditor on the answer field
+    CKEDITOR.replace('answer');
+
+    document.getElementById('faqForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      // Get the values from the form fields
+      const question = document.getElementById('question').value;
+      const answer = CKEDITOR.instances.answer.getData();
+
+      try {
+        // Send a POST request to create a new FAQ
+        const response = await fetch('/api/faqs', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question, answer })
+        });
+        const data = await response.json();
+        if (response.status === 201) {
+          alert('FAQ created successfully!');
+          document.getElementById('question').value = '';
+          CKEDITOR.instances.answer.setData('');
+        } else {
+          alert('Error creating FAQ: ' + (data.error || 'Unknown error'));
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Error creating FAQ.');
+      }
+    });
+  </script>
+</body>
+</html>
