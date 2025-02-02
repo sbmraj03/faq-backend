@@ -12,7 +12,7 @@ A Node.js/Express backend for managing multilingual FAQs with caching and automa
 
 1. **Clone the Repository:**
    ```bash
-   git clone https://github.com/yourusername/faq-backend.git
+   git clone https://github.com/sbmraj03/faq-backend.git
    cd faq-backend
    ```
 
@@ -210,7 +210,7 @@ We welcome contributions to improve this project. To contribute, please follow t
 
 2. **Clone Your Fork:**
    ```bash
-   git clone https://github.com/yourusername/faq-backend.git
+   git clone https://github.com/sbmraj03/faq-backend.git
    cd faq-backend
    ```
 
