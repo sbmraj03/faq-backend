@@ -1,14 +1,21 @@
-const translate = require('google-translate-open-api').default;
+const { Translate } = require('@google-cloud/translate').v2;
+const path = require('path');
 
-// Function to translate a given text to a target language
+// Path to your Google Cloud service account JSON key file
+const CREDENTIALS_PATH = path.join(__dirname, '../../google-credentials.json'); 
+// Initialize Google Cloud Translation API client
+const translate = new Translate({
+  keyFilename: CREDENTIALS_PATH,
+});
+
+// Function to translate text
 async function translateText(text, targetLang) {
   try {
-    const result = await translate(text, { tld: "com", to: targetLang });
-    return result.data[0];
+    const [translatedText] = await translate.translate(text, targetLang);
+    return translatedText;
   } catch (error) {
-    console.error(`Translation error for language "${targetLang}":`, error);
-    // Fallback to the original text if translation fails
-    return text;
+    console.error(`Translation error for language "${targetLang}":`, error.message);
+    return text; // Fallback to original text if translation fails
   }
 }
 
